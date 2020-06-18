@@ -32,28 +32,57 @@ RSpec.describe MerkleTreeVerifier do
     end
 
     context 'with an invalid merkle_root' do
-      let(:merkle_root) { "f832e7458a6140ef22c6bc1743f09610" }
-      it 'prints out invalid' do
-        expect { verify_hash }.to output(/INVALID/).to_stdout
+      context 'invalid string' do
+        let(:merkle_root) { "f832e7458a6140ef22c6bc1743f09610" }
+        it 'prints out invalid' do
+          expect { verify_hash }.to output(/INVALID/).to_stdout
+        end
+      end
+      context 'with a non-string merkle_root' do
+        let(:merkle_root) { 100 }
+        it 'prints out invalid' do
+          expect { verify_hash }.to raise_error(ArgumentError)
+        end
       end
     end
 
     context 'with an invalid initial message' do
-      let(:message) { "f832e7458a6140ef22c6bc1743f096" }
+      context 'invalid string' do
+        let(:message) { "f832e7458a6140ef22c6bc1743f096" }
 
-      it 'prints out invalid' do
-        expect { verify_hash }.to output(/INVALID/).to_stdout
+        it 'raises an ArgumentError' do
+          expect { verify_hash }.to output(/INVALID/).to_stdout
+        end
+      end
+      context 'with a non-string message' do
+        let(:message) { 100 }
+        it 'raises an ArgumentError' do
+          expect { verify_hash }.to raise_error(ArgumentError)
+        end
       end
     end
 
-    context 'with an invalid set of timestamps' do
-      let(:timestamps) { [
-        Timestamp.new("sha256", "", "e3be16e996ecf573979ca58498c5"),
-        Timestamp.new("sha256", "0f8b9b68f4a5308a792b01029e64", ""),
-      ] }
+    context 'with invalid timestamps' do
+      context 'with array of non-timestamps' do
+        let(:timestamps) { [
+          'Wanderer above the Sea of Fog',
+          'The Death of Marat'
+        ] }
 
-      it 'prints outs that the vile is invalid' do
-        expect { verify_hash }.to output(/INVALID/).to_stdout
+        it 'raises an ArgumentError' do
+          expect { verify_hash }.to raise_error(ArgumentError)
+        end
+      end
+
+      context 'with timestamps from an invalid merkle tree' do
+        let(:timestamps) { [
+          Timestamp.new("sha256", "", "e3be16e996ecf573979ca58498c5"),
+          Timestamp.new("sha256", "0f8b9b68f4a5308a792b01029e64", ""),
+        ] }
+
+        it 'prints outs that the vile is invalid' do
+          expect { verify_hash }.to output(/INVALID/).to_stdout
+        end
       end
     end
   end
@@ -81,6 +110,29 @@ RSpec.describe MerkleTreeVerifier do
 
     it 'converts hex to a byte array' do
       expect(subject.byte_array(hex)).to eq "\xF82\xE7E\x8Aa@\xEF\"\xC6\xBC\x17C\xF0\x96"
+    end
+  end
+
+  describe '#is_hex?' do
+    context 'valid hex string' do
+      let(:string) { "0Aff"}
+      it 'returns integer (truthy)' do
+        expect(subject.is_hex?(string)).to be_an(Integer)
+      end
+    end
+
+    context 'invalid hex string' do
+      let(:string) { "ZZ" }
+      it 'returns nil' do
+        expect(subject.is_hex?(string)).to be nil
+      end
+    end
+
+    context 'invalid hex integer' do
+      let(:string) { 99 }
+      it 'returns nil' do
+        expect(subject.is_hex?(string)).to be false
+      end
     end
   end
 end
