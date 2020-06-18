@@ -30,7 +30,7 @@ class MerkleTreeVerifier
   end
 
   def verify_hash(timestamps, message, merkle_root)
-    raise ArgumentError unless timestamps.all? {|element| element.is_a?(Timestamp)}
+    raise ArgumentError unless timestamps.all? { |element| element.is_a?(Timestamp)}
     raise ArgumentError unless is_hex?(message)
     raise ArgumentError unless is_hex?(merkle_root)
 

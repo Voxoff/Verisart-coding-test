@@ -27,8 +27,6 @@ build in error checks, to ensure the operations are all timestamps, the
 operators are valid operators, the prefixes and postfixes are strings and so on.
 
 
-
-
 # Verisart Coding Test
 
 This coding test is about using standard Go/Python routines to parse a Merkle path embedded in a json file. A Merkle
