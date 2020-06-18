@@ -1,0 +1,40 @@
+Verisart backend engineer task
+
+
+Thank you for applying for an engineering role at Verisart. The next step in the application process is to complete a task. The purpose of this is to help understand how you approach a problem you might encounter in your role. Please don’t hesitate to ask if you have questions or need to clarify anything, so that you’re confident you understand what to do.
+
+Task
+In this- task, you will: Parse a Merkle path embedded in a JSON file and verify your result against the Merkle root.
+
+Your task is to implement a function called VerifyHash that takes in a list of operations, the initial message and the Merkle root and returns whether the message can be verified by following the path. This function should walk through the timestamps and verify the message against the Merkle root. Use the provided files (main.go or main.py) as the starting points.
+
+Your starting point is the message
+msg = "b4759e820cb549c53c755e5905c744f73605f8f6437ae7884252a5f204c8c6e6"
+   
+Verify your result against the Merkle root
+merkle_root = "f832e7458a6140ef22c6bc1743f09610281f66a1b202e7b4d278b83de55ef58c"
+
+* A Merkle path consists of a series of cryptographic operations, applied to an initial message 
+* Each operation has an Operator and two operands (Prefix and Postfix)
+* The output of each operation is Operator(Prefix + message + Postfix), which will become the message in the operation
+* The final message is a hash called the Merkel root 
+* The message is big-endian while merkleRoot is little-endian
+
+Python 
+   * Use hashlib.sha256 and hash.hexdigest 
+
+Go
+   * Use crypto/sha256 and encoding/hex
+   * You’ll have to do a little additional work here when you’re unmarshalling the JSON file to convert the timestamp from an untyped array to a structured object
+Bear in mind
+   * Go and Python files (main.go, main.py) are provided as examples, but another language is okay too, just check with us so we’re sure someone on the team can evaluate it 
+   * Please consider writing unit tests for your code
+   * Update the README to include some notes and explanation of what you did
+   * Include comments in your code if you think that’s useful
+   * Don’t overcomplicate things: This task can be solved without knowing too much about Merkle trees
+
+Timebox
+Candidate tasks are always tricky because some people have lots of time to spend and other people don’t. We would like you to timebox your work to 4 hours or less. If you don’t finish in that time, don’t worry. Just explain what you would have done to complete the task and how much longer you expect it would take you.
+
+Questions 
+If anything is unclear, please ask! There’s no need to labour on if you’re not sure what to do. Drop an email to the person who sent you the test and ask for the clarification you need. Asking good questions also demonstrates good practice and won’t influence the evaluation of your test.
