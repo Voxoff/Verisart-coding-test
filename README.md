@@ -19,12 +19,12 @@ And to run tests
 My solution is based on a class `MerkleTreeVerifier` which reads the json file
 and converts it to an array of timestamps.
 
-Then, we walk apply the operation `Operator(Prefix + message + Postfix)`
-to each message and compare to the big-endian converted merkle root.
+Then, we walk through the timestamps appling the operation `Operator(Prefix + message + Postfix)`
+to each. Finally, we compare the final message to the big-endian converted merkle root.
 
 If this class was to be used outside of a test-environment, it would be useful to
 build in error checks, to ensure the operations are all timestamps, the
-operators are valid operators, the prefixes and postfixes are stings and so on.
+operators are valid operators, the prefixes and postfixes are strings and so on.
 
 
 
